@@ -20,12 +20,6 @@ def main():
     # example: 7 MeV -> 2 bins
     E_BINS = max(1, math.ceil(ENERGY / 3.5))
 
-    # simple deterministic seed from ENERGY
-    # (adjust formula if you like)
-    #SEED = 89736501 + int(round(ENERGY * 10.0))
-
-    
-
     cwd = Path(".").resolve()
 
     # --- load templates ---
