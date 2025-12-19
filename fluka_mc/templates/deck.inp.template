@@ -1,0 +1,36 @@
+TITLE
+({BEAM_TYPE} {ENERGY} -> {TARG_TYPE}, scoring on species: {SPECIES_N})
+DEFAULTS         0.0       0.0       0.0       0.0       0.0       0.0PRECISION
+IONTRANS        -2.0       0.0       0.0       0.0       0.0       0.0
+PHYSICS          1.0       0.0       1.0       0.0       0.0       0.0COALESCE
+PHYSICS          3.0       0.0       1.0       0.0       0.0       0.0EVAPORAT
+*...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+BEAM        {ENERGY}       0.0       0.0       0.0       0.0       0.0{BEAM_TYPE}    
+BEAMPOS          0.0       0.0       0.0
+PART-THR        1E-6      -6.0      24.0       1.0       0.0       1.0
+GEOBEGIN                                                              COMBNAME
+    0    0
+RPP blakhole   -5000.0 +5000.0 -5000.0 +5000.0 -5000.0 +5000.0
+RPP vac        -1000.0 +1000.0 -1000.0 +1000.0 -1000.0 +1000.0
+RPP targ       -{TARG_WIDTH} +{TARG_WIDTH} -{TARG_WIDTH} +{TARG_WIDTH} -1.0 +{TARG_THICKNESS}
+END
+Blckhole     5 +blakhole -vac
+Vac          5 +vac      -targ
+Targ         5 +targ
+END
+GEOEND
+*...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+MATERIAL         8.0                 1.4                          16.0OXYGEN    
+ASSIGNMA    BLCKHOLE  Blckhole
+ASSIGNMA      VACUUM       Vac
+ASSIGNMA {TARG_TYPE}      Targ
+*...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+__USRBIN_CARD_AREA__
+*...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+__USRTRACK_CARD_AREA__
+*...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+__USRYIELD_CARD_AREA__
+*...+....1....+....2....+....3....+....4....+....5....+....6....+....7....+....8
+RANDOMIZ         1.0       0.0
+START  {N_PRIMARIES}
+STOP

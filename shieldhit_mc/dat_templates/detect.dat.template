@@ -1,0 +1,142 @@
+# ================== GEOMETRY OF SCORING REGION ==================
+Geometry Mesh
+Name YieldMesh
+X -1.0  1.0  1
+Y -1.0  1.0  1
+Z -1.0  1.0  1
+
+# ================== FILTERS (PARTICLE SELECTION) ==================
+Filter
+Name PRO
+Z = 1
+A = 1
+
+Filter
+Name DEU
+Z = 1
+A = 2
+
+Filter
+Name TRI
+Z = 1
+A = 3
+
+Filter
+Name HE3
+Z = 2
+A = 3
+
+Filter
+Name HE4
+Z = 2
+A = 4
+
+Filter
+Name HEAVY
+Z >= 3
+
+Filter
+Name NEU
+Z = 0
+A = 1
+
+Filter
+Name CHARGED
+Q != 0
+
+Filter
+name PHO
+ID = 12
+
+
+# ================== PER-SPECIES DOUBLE-DIFF FLUENCE ==================
+
+# ---- Protons ----
+Output
+Filename dd_PRO_{CYCLES}.{out_type}
+Geo      YieldMesh
+Quantity FLUENCE PRO
+Diff1    1e-3  {BEAM_MEV}  {E_BINS}
+Diff1Type E
+Diff2    0.0   180.0  {ANG_BINS}
+Diff2Type ANGLE
+
+# ---- Deuterons ----
+Output
+Filename dd_DEU_{CYCLES}.{out_type}
+Geo      YieldMesh
+Quantity FLUENCE DEU
+Diff1    1e-3  {BEAM_MEV}  {E_BINS}
+Diff1Type E
+Diff2    0.0   180.0  {ANG_BINS}
+Diff2Type ANGLE
+
+# ---- Tritons ----
+Output
+Filename dd_TRI_{CYCLES}.{out_type}
+Geo      YieldMesh
+Quantity FLUENCE TRI
+Diff1    1e-3  {BEAM_MEV}  {E_BINS}
+Diff1Type E
+Diff2    0.0   180.0  {ANG_BINS}
+Diff2Type ANGLE
+
+# ---- Helium-3 ----
+Output
+Filename dd_HE3_{CYCLES}.{out_type}
+Geo      YieldMesh
+Quantity FLUENCE HE3
+Diff1    1e-3  {BEAM_MEV}  {E_BINS}
+Diff1Type E
+Diff2    0.0   180.0  {ANG_BINS}
+Diff2Type ANGLE
+
+# ---- Helium-4 (alpha) ----
+Output
+Filename dd_HE4_{CYCLES}.{out_type}
+Geo      YieldMesh
+Quantity FLUENCE HE4
+Diff1    1e-3  {BEAM_MEV}  {E_BINS}
+Diff1Type E
+Diff2    0.0   180.0  {ANG_BINS}
+Diff2Type ANGLE
+
+# ---- Heavy ions (Z >= 3) ----
+#Output
+#Filename dd_HEAVY_{CYCLES}.{out_type}
+#Geo      YieldMesh
+#Quantity FLUENCE HEAVY
+#Diff1    1e-3  {BEAM_MEV}  {E_BINS}
+#Diff1Type E
+#Diff2    0.0   180.0  {ANG_BINS}
+#Diff2Type ANGLE
+
+# ---- Neutrons ----
+Output
+Filename dd_NEU_{CYCLES}.{out_type}
+Geo      YieldMesh
+Quantity FLUENCE NEU
+Diff1    1e-3  {BEAM_MEV}  {E_BINS}
+Diff1Type E
+Diff2    0.0   180.0  {ANG_BINS}
+Diff2Type ANGLE
+
+# ---- All charged particles ----
+#Output
+#Filename dd_CHARGED_{CYCLES}.{out_type}
+#Geo      YieldMesh
+#Quantity FLUENCE CHARGED
+#Diff1    1e-3  {BEAM_MEV}  {E_BINS} 
+#Diff1Type E
+#Diff2    0.0   180.0  {ANG_BINS}
+#Diff2Type ANGLE
+
+# ---- Photons ----
+Output
+Filename dd_PHO_{CYCLES}.{out_type}
+Geo      YieldMesh
+Quantity FLUENCE PHO
+Diff1    1e-3  {BEAM_MEV}  {E_BINS} 
+Diff1Type E
+Diff2    0.0   180.0  {ANG_BINS}
+Diff2Type ANGLE

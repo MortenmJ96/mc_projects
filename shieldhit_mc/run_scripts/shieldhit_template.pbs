@@ -1,0 +1,40 @@
+#!/bin/bash
+#SBATCH --job-name=sh___ENERGY___po16
+#SBATCH --partition=q48
+#SBATCH --mem=4G
+#SBATCH --ntasks=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --time=60:00:00
+
+cd "$SLURM_SUBMIT_DIR"
+#source /home/dcpt/bashrc.dcpt
+source /home/mortenmj/opt/shieldhit/env_shieldhit.sh
+
+ENERGY=__ENERGY__
+N_PRIMARIES=__N_PRIMARIES__
+ANG_BINS=__ANG_BINS__
+FILE_TYPE=__FILE_TYPE__
+CYCLES=__CYCLES__
+
+OUT_DIR="output/E_${ENERGY}"
+
+echo "E = ${ENERGY}, n_prim = ${N_PRIMARIES}"
+
+
+mkdir -p "${OUT_DIR}"
+
+cp run_scripts/runner_script.py /scratch/$SLURM_JOB_ID
+cp dat_templates/* /scratch/$SLURM_JOB_ID
+
+cd /scratch/$SLURM_JOB_ID
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}
+
+python3 runner_script.py "${ENERGY}" "${N_PRIMARIES}" "${ANG_BINS}" "${FILE_TYPE}" "${CYCLES}"
+
+cp -r dd_* "$SLURM_SUBMIT_DIR/${OUT_DIR}"
+#cp -r shieldhit.log "$SLURM_SUBMIT_DIR/${OUT_DIR}"
+#cp -r *.dat "$SLURM_SUBMIT_DIR/${OUT_DIR}"
+
+
+echo "========= Job finished at $(date) =========="

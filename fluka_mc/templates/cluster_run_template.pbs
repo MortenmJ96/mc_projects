@@ -1,0 +1,56 @@
+#!/bin/bash
+#SBATCH --job-name=__PROJ_NAME____ENERGY___
+#SBATCH --partition=q48
+#SBATCH --mem=2G
+#SBATCH --ntasks=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --time=__TIME__
+
+cd "$SLURM_SUBMIT_DIR"
+source __ENVIROMENT__
+
+
+ENVIROMENT=__ENVIROMENT__
+ENERGY=__ENERGY__
+N_PRIMARIES=__N_PRIMARIES__
+ANG_BINS=__ANG_BINS__
+PROJ_NAME=__PROJ_NAME__
+SPECIES_N="__SPECIES_N__"
+TARG_THICKNESS=__TARG_THICKNESS__
+TARG_WIDTH=__TARG_WIDTH__
+TARG_TYPE=__TARG_TYPE__
+BEAM_TYPE=__BEAM_TYPE__
+CYCLES=__CYCLES__
+E_BIN_WIDTH=__E_BIN_WIDTH__
+E_BIN_MIN=__E_BIN_MIN__
+E_LIST=__E_LIST__
+MAX_E_SCORE=__MAX_E_SCORE__
+#INTENERGY=$(echo "$ENERGY * 1000" / 1 | bc)
+OUT_DIR="output/${PROJ_NAME}/${PROJ_NAME}_${ENERGY}"
+
+echo "E = ${ENERGY}, n_prim = ${N_PRIMARIES}, cycles = ${CYCLES}"
+echo "Env: ${ENVIROMENT}"
+
+
+mkdir -p "${OUT_DIR}"
+
+cp scripts/runner_script.py /scratch/$SLURM_JOB_ID
+cp templates/deck.inp.template /scratch/$SLURM_JOB_ID
+cp scripts/compiler.sh /scratch/$SLURM_JOB_ID
+
+cd /scratch/$SLURM_JOB_ID
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}
+
+echo "Starting runner_script!"
+python3 runner_script.py "${ENERGY}" "${N_PRIMARIES}" "${ANG_BINS}" "${TARG_TYPE}" "${BEAM_TYPE}" "${TARG_THICKNESS}" "${SPECIES_N}" "${CYCLES}" "${E_BIN_WIDTH}" "${E_BIN_MIN}" "${TARG_WIDTH}" "${MAX_E_SCORE}"
+
+./compiler.sh "${SPECIES_N[*]}" "${ENERGY}"
+
+cp -r *.inp* "$SLURM_SUBMIT_DIR/${OUT_DIR}"
+cp -r *_tab.lis "$SLURM_SUBMIT_DIR/${OUT_DIR}"
+cp -r *.ascii "$SLURM_SUBMIT_DIR/${OUT_DIR}"
+
+#cp -r * "$SLURM_SUBMIT_DIR/${OUT_DIR}"
+
+echo "========= Job finished at $(date) =========="

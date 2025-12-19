@@ -1,0 +1,8 @@
+*         Beam of protons
+RNDSEED         {SEED}     ! Random seed
+JPART0          2            ! Incident particle type, 2=proton
+TMAX0           {BEAM_MEV}   0.0  ! Incident energy; (MeV/nucl)
+NSTAT           {N_PRIMARIES}   500000 ! NSTAT, Step of saving
+STRAGG          2            ! Straggling: 0-Off 1-Gauss, 2-Vavilov
+MSCAT           2            ! Mult. scatt 0-Off 1-Gauss, 2-Moliere
+NUCRE           1            ! Nucl.Reac. switcher: 1-ON, 0-OFF
